@@ -1,4 +1,4 @@
-package com.homewebside.homewebsidebackend.requestTypes;
+package com.homewebside.homewebsidebackend.replyes;
 
 import java.lang.reflect.Array;
 

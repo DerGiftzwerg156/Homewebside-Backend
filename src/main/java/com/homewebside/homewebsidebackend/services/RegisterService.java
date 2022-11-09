@@ -3,7 +3,7 @@ package com.homewebside.homewebsidebackend.services;
 import com.homewebside.homewebsidebackend.entity.User;
 import com.homewebside.homewebsidebackend.interfaces.UserRepository;
 import com.homewebside.homewebsidebackend.requestTypes.RegisterDataRequest;
-import com.homewebside.homewebsidebackend.requestTypes.Reply;
+import com.homewebside.homewebsidebackend.replyes.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,9 @@ public class RegisterService {
 
 
     public Reply register(RegisterDataRequest registerDataRequest){
+        System.out.println(registerDataRequest.getPassword());
         int hashedPassword = registerDataRequest.getPassword().hashCode();
+        System.out.println(hashedPassword);
         User user = new User(registerDataRequest.getFirstName(),registerDataRequest.getLastName(),registerDataRequest.getMail(),hashedPassword,"User");
         userRepository.save(user);
         if(userRepository.findByMail(user.getMail()) != null) {

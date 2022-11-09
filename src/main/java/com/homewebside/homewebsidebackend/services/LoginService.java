@@ -3,8 +3,7 @@ package com.homewebside.homewebsidebackend.services;
 import com.homewebside.homewebsidebackend.entity.User;
 import com.homewebside.homewebsidebackend.interfaces.UserRepository;
 import com.homewebside.homewebsidebackend.requestTypes.LoginDataRequest;
-import com.homewebside.homewebsidebackend.requestTypes.LoginReply;
-import com.homewebside.homewebsidebackend.requestTypes.Reply;
+import com.homewebside.homewebsidebackend.replyes.LoginReply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
