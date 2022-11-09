@@ -1,0 +1,12 @@
+version: "3"  # optional since v1.27.0
+services:
+  mariadb:
+    container_name: 3DDrucker
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=3DDrucker
+      - MYSQL_PASSWORD=Password1
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=Password1

@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: default
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:mariadb://192.168.178.69:3306/3DDrucker
+    username: root
+    password: Password1
+    initialization-mode: always
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
+  #      ddl-auto: update
+  jooq:
+    sql-dialect: org.hibernate.dialect.MySQL5Dialect
