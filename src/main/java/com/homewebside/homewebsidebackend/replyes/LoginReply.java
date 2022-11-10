@@ -4,22 +4,43 @@ import com.homewebside.homewebsidebackend.entity.User;
 
 public class LoginReply {
 
-    private User user;
+    private String firstName;
+
+    private String token;
+    private String role;
     private String message;
     private boolean status;
 
-    public LoginReply(User user, String message, boolean status) {
-        this.user = user;
+    public LoginReply(String firstName, String token, String role, String message, boolean status) {
+        this.firstName = firstName;
+        this.token = token;
+        this.role = role;
         this.message = message;
         this.status = status;
     }
 
-    public User getUser() {
-        return user;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getMessage() {

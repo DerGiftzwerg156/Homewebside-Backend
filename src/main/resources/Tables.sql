@@ -4,10 +4,20 @@ CREATE TABLE IF NOT EXISTS user
     first_name VARCHAR(40)  NOT NULL,
     last_name  VARCHAR(40)  NOT NULL,
     email      varchar(300) NOT NULL,
-    password   int NOT NULL,
+    password   int          NOT NULL,
     role       varchar(20)  NOT NULL,
     PRIMARY KEY (user_id)
-    );
+);
+
+CREATE TABLE IF NOT EXISTS token
+(
+    token_id  INTEGER      NOT NULL AUTO_INCREMENT,
+    user_id   INTEGER      NOT NULL,
+    token     varchar(100) NOT NULL,
+    timestamp TIMESTAMP    NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
+    PRIMARY KEY (token_id)
+);
 
 CREATE TABLE IF NOT EXISTS addresses
 (
@@ -20,4 +30,4 @@ CREATE TABLE IF NOT EXISTS addresses
     address_bonus varchar(100),
     PRIMARY KEY (address_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
-    );
+);

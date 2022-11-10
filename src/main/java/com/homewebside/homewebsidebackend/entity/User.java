@@ -17,8 +17,9 @@ public class User {
     private String mail;
     @Column(name = "password", nullable = false)
     private int password;
-    @Column(name = "role", nullable = false)
+    @JoinColumn(name = "role", nullable = false)
     private String role;
+
 
     public User(String firstName, String lastName, String mail, int password, String role) {
         this.firstName = firstName;
@@ -60,7 +61,7 @@ public class User {
         return mail;
     }
 
-    public void seteMail(String eMail) {
+    public void setMail(String eMail) {
         this.mail = eMail;
     }
 
@@ -88,8 +89,8 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", eMail='" + mail + '\'' +
-                ", password='" + password + '\'' +
+                ", mail='" + mail + '\'' +
+                ", password=" + password +
                 ", role='" + role + '\'' +
                 '}';
     }
