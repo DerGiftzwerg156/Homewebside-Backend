@@ -6,12 +6,12 @@ public class LoginReply {
 
     private User user;
     private String message;
-    private boolean loginStatus;
+    private boolean status;
 
-    public LoginReply(User user, String message, boolean loginStatus) {
+    public LoginReply(User user, String message, boolean status) {
         this.user = user;
         this.message = message;
-        this.loginStatus = loginStatus;
+        this.status = status;
     }
 
     public User getUser() {
@@ -30,11 +30,11 @@ public class LoginReply {
         this.message = message;
     }
 
-    public boolean isLoginStatus() {
-        return loginStatus;
+    public boolean isStatus() {
+        return status;
     }
 
-    public void setLoginStatus(boolean loginStatus) {
-        this.loginStatus = loginStatus;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

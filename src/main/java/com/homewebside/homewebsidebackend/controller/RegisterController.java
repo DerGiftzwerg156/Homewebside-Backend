@@ -16,7 +16,6 @@ public class RegisterController {
 
     @PostMapping
     private Reply register(@RequestBody RegisterDataRequest registerDataRequest){
-        System.out.println(registerDataRequest.getMail());
         return registerService.register(registerDataRequest);
     }
 }

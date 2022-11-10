@@ -8,10 +8,10 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.main</groupId>
-  <artifactId>PrinterOrderWebside</artifactId>
-  <name>PrinterOrderWebside</name>
+  <artifactId>HomeWebsideBackend</artifactId>
+  <name>HomeWebsideBackend</name>
   <version>0.0.1-SNAPSHOT</version>
-  <description>PrinterOrderWebside</description>
+  <description>HomeWebside-Backend</description>
   <build>
     <plugins>
       <plugin>

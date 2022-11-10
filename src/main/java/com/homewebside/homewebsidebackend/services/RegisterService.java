@@ -15,9 +15,7 @@ public class RegisterService {
 
 
     public Reply register(RegisterDataRequest registerDataRequest){
-        System.out.println(registerDataRequest.getPassword());
         int hashedPassword = registerDataRequest.getPassword().hashCode();
-        System.out.println(hashedPassword);
         User user = new User(registerDataRequest.getFirstName(),registerDataRequest.getLastName(),registerDataRequest.getMail(),hashedPassword,"User");
         userRepository.save(user);
         if(userRepository.findByMail(user.getMail()) != null) {
