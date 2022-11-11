@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="token")
+@Table(name = "token")
 public class Token {
 
     @Id
@@ -26,6 +26,13 @@ public class Token {
         this.userid = userid;
         this.token = token;
         this.timestamp = timestamp;
+    }
+
+    public Token() {
+    }
+
+    public int getTokenid() {
+        return tokenid;
     }
 
     public User getUserid() {

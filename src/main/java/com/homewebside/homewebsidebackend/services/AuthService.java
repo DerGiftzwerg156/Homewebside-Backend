@@ -39,12 +39,14 @@ public class AuthService {
         if (userRepository.findByMail(loginDataRequest.getMail()) != null) {
             User existingUser = userRepository.findByMail(loginDataRequest.getMail());
             if (existingUser.getPassword() == loginDataRequest.getPassword().hashCode()) {
-                Token token = new Token(existingUser,generateToken(),new Timestamp(System.currentTimeMillis()));
+                Token token = new Token(existingUser, generateToken(), new Timestamp(System.currentTimeMillis()));
+                Token oldToken =  tokenRepository.findByUserid(existingUser);
+                tokenRepository.deleteById(oldToken.getTokenid());
                 tokenRepository.save(token);
                 return new LoginReply(existingUser.getFirstName(), token.getToken(), existingUser.getRole(), "Successfully logged in", true);
             }
         }
-        return new LoginReply("","","", "Wrong Login Data", false);
+        return new LoginReply("", "", "", "Wrong Login Data", false);
     }
 
     private String generateToken() {
