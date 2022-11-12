@@ -31,3 +31,30 @@ CREATE TABLE IF NOT EXISTS addresses
     PRIMARY KEY (address_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE
 );
+
+Create TABLE IF NOT EXISTS pla_colors
+(
+    pla_color_id INTEGER     NOT NULL AUTO_INCREMENT,
+    color        VARCHAR(50) NOT NULL,
+    is_available BOOLEAN     NOT NULL,
+    PRIMARY KEY (pla_color_id)
+
+);
+
+CREATE TABLE IF NOT EXISTS assignments
+(
+    assignment_id   INTEGER      NOT NULL AUTO_INCREMENT,
+    user_id         INTEGER      NOT NULL,
+    pla_color_id    INTEGER      NOT NULL,
+    status          VARCHAR(100)      ,
+    title           VARCHAR(100) NOT NULL,
+    description     varchar(2000) NOT NULL ,
+    filament_length FLOAT,
+    watt_hours      FLOAT,
+    is_payed        BOOLEAN NOT NULL ,
+    PRIMARY KEY (assignment_id),
+    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (pla_color_id) REFERENCES pla_colors (pla_color_id) ON DELETE CASCADE
+
+
+);
