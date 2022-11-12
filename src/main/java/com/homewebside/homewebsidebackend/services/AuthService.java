@@ -24,6 +24,9 @@ public class AuthService {
     @Autowired
     private TokenRepository tokenRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final Base64.Encoder base64encoder = Base64.getUrlEncoder();
 
@@ -39,9 +42,11 @@ public class AuthService {
         if (userRepository.findByMail(loginDataRequest.getMail()) != null) {
             User existingUser = userRepository.findByMail(loginDataRequest.getMail());
             if (existingUser.getPassword() == loginDataRequest.getPassword().hashCode()) {
+                if (tokenRepository.findByUserid(existingUser) != null) {
+                    Token oldToken = tokenRepository.findByUserid(existingUser);
+                    tokenRepository.deleteById(oldToken.getTokenid());
+                }
                 Token token = new Token(existingUser, generateToken(), new Timestamp(System.currentTimeMillis()));
-                Token oldToken =  tokenRepository.findByUserid(existingUser);
-                tokenRepository.deleteById(oldToken.getTokenid());
                 tokenRepository.save(token);
                 return new LoginReply(existingUser.getFirstName(), token.getToken(), existingUser.getRole(), "Successfully logged in", true);
             }
