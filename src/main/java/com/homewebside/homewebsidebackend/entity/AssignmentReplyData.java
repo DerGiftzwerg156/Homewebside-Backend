@@ -3,14 +3,14 @@ package com.homewebside.homewebsidebackend.entity;
 public class AssignmentReplyData {
     private int assignmentId;
     private PlaColor plaColor;
-    private String status;
+    private AssignmentStatus status;
     private String title;
     private String description;
     private float filamentLength;
     private float wattHours;
     private boolean isPayed;
 
-    public AssignmentReplyData(int assignmentId, PlaColor plaColor, String status, String title, String description, float filamentLength, float wattHours, boolean isPayed) {
+    public AssignmentReplyData(int assignmentId, PlaColor plaColor, AssignmentStatus status, String title, String description, float filamentLength, float wattHours, boolean isPayed) {
         this.assignmentId = assignmentId;
         this.plaColor = plaColor;
         this.status = status;
@@ -37,11 +37,11 @@ public class AssignmentReplyData {
         this.plaColor = plaColor;
     }
 
-    public String getStatus() {
+    public AssignmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AssignmentStatus status) {
         this.status = status;
     }
 

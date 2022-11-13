@@ -18,8 +18,9 @@ public class Assignment {
     @JoinColumn(name = "pla_color_id", nullable = false)
     private PlaColor plaColorId;
 
-    @Column(name = "status")
-    private String status;
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private AssignmentStatus status;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -36,9 +37,10 @@ public class Assignment {
     @Column(name = "is_payed", nullable = false)
     private boolean isPayed;
 
-    public Assignment(User user, PlaColor plaColor, String title, String description, boolean isPayed) {
+    public Assignment(User user, PlaColor plaColor,AssignmentStatus status, String title, String description, boolean isPayed) {
         this.userId = user;
         this.plaColorId = plaColor;
+        this.status = status;
         this.title = title;
         this.description = description;
         this.isPayed = isPayed;
@@ -67,11 +69,11 @@ public class Assignment {
         this.plaColorId = plaColor;
     }
 
-    public String getStatus() {
+    public AssignmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AssignmentStatus status) {
         this.status = status;
     }
 

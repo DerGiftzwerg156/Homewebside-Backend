@@ -1,9 +1,7 @@
 package com.homewebside.homewebsidebackend.services;
 
-import com.homewebside.homewebsidebackend.entity.Assignment;
-import com.homewebside.homewebsidebackend.entity.AssignmentReplyData;
-import com.homewebside.homewebsidebackend.entity.PlaColor;
-import com.homewebside.homewebsidebackend.entity.User;
+import com.homewebside.homewebsidebackend.entity.*;
+import com.homewebside.homewebsidebackend.interfaces.AssignmentStatusRepository;
 import com.homewebside.homewebsidebackend.interfaces.AssignmentsRepository;
 import com.homewebside.homewebsidebackend.interfaces.PlacolorsRepository;
 import com.homewebside.homewebsidebackend.interfaces.TokenRepository;
@@ -27,6 +25,9 @@ public class AssignmentService {
 
     @Autowired
     private PlacolorsRepository plaColorRepository;
+
+    @Autowired
+    private AssignmentStatusRepository assignmentStatusRepository;
 
     @Autowired
     TokenService tokenService;
@@ -56,7 +57,8 @@ public class AssignmentService {
             if (tokenRepository.findByToken(newAssignmentRequest.getToken()) != null) {
                 User user = tokenRepository.findByToken(newAssignmentRequest.getToken()).getUserid();
                 PlaColor plaColor = plaColorRepository.findByColor(newAssignmentRequest.getColor());
-                Assignment assignment = new Assignment(user, plaColor, newAssignmentRequest.getTitle(), newAssignmentRequest.getDescription(), false);
+                AssignmentStatus assignmentStatus = assignmentStatusRepository.findByStatusCode(101);
+                Assignment assignment = new Assignment(user, plaColor, assignmentStatus, newAssignmentRequest.getTitle(), newAssignmentRequest.getDescription(), false);
                 assignmentsRepository.save(assignment);
                 return new Reply("Successfully created new Assignment", true);
             } else {
