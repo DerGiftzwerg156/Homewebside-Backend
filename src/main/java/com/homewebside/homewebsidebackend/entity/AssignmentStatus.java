@@ -1,7 +1,5 @@
 package com.homewebside.homewebsidebackend.entity;
 
-import org.checkerframework.checker.units.qual.C;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,12 +15,12 @@ public class AssignmentStatus {
     private String assignmentStatus;
 
     @Column(name = "statusCode", nullable = false)
-    private int statusCode;
+    private int assignmentStatusCode;
 
-    public AssignmentStatus(int assignmentStatusId, String assignmentStatus, int statusCode) {
+    public AssignmentStatus(int assignmentStatusId, String assignmentStatus, int assignmentStatusCode) {
         this.assignmentStatusId = assignmentStatusId;
         this.assignmentStatus = assignmentStatus;
-        this.statusCode = statusCode;
+        this.assignmentStatusCode = assignmentStatusCode;
     }
 
     public AssignmentStatus() {
@@ -44,11 +42,11 @@ public class AssignmentStatus {
         this.assignmentStatus = assignmentStatus;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int getAssignmentStatusCode() {
+        return assignmentStatusCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setAssignmentStatusCode(int assignmentStatusCode) {
+        this.assignmentStatusCode = assignmentStatusCode;
     }
 }
