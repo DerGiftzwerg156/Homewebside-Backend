@@ -22,28 +22,57 @@ public class Assignment {
     @JoinColumn(name = "status_id", nullable = false)
     private AssignmentStatus status;
 
+    @ManyToOne
+    @JoinColumn(name = "payment_status_id", nullable = false)
+    private PaymentStatus paymentStatus;
+
     @Column(name = "title", nullable = false)
     private String title;
 
     @Column(name = "description", nullable = false)
     private String description;
+    
+    @Column(name = "infill",nullable = false)
+    private int infill;
 
-    @Column(name = "filament_length")
-    private float filamentLength;
+    @Column(name = "filament_weight")
+    private float filamentWeight;
 
-    @Column(name = "watt_hours")
-    private float wattHours;
+    @Column(name = "hours")
+    private float hours;
 
-    @Column(name = "is_payed", nullable = false)
-    private boolean isPayed;
+    @Column(name = "versand", nullable = false)
+    private boolean versand;
 
-    public Assignment(User user, PlaColor plaColor,AssignmentStatus status, String title, String description, boolean isPayed) {
+    public Assignment(User user, PlaColor plaColor, AssignmentStatus status, PaymentStatus paymentStatus, String title, String description,int infill, boolean versand) {
         this.userId = user;
         this.plaColorId = plaColor;
         this.status = status;
+        this.paymentStatus = paymentStatus;
         this.title = title;
         this.description = description;
-        this.isPayed = isPayed;
+        this.infill = infill;
+        this.versand = versand;
+    }
+
+    public int getInfill() {
+        return infill;
+    }
+
+    public void setInfill(int infill) {
+        this.infill = infill;
+    }
+
+    public boolean isVersand() {
+        return versand;
+    }
+
+    public boolean getVersand() {
+        return versand;
+    }
+
+    public void setVersand(boolean versand) {
+        this.versand = versand;
     }
 
     public Assignment() {
@@ -77,6 +106,34 @@ public class Assignment {
         this.status = status;
     }
 
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
+    public PlaColor getPlaColorId() {
+        return plaColorId;
+    }
+
+    public void setPlaColorId(PlaColor plaColorId) {
+        this.plaColorId = plaColorId;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -93,29 +150,24 @@ public class Assignment {
         this.description = description;
     }
 
-    public float getFilamentLength() {
-        return filamentLength;
+    public float getFilamentWeight() {
+        return filamentWeight;
     }
 
-    public void setFilamentLength(float filamentLength) {
-        this.filamentLength = filamentLength;
+    public void setFilamentWeight(float filamentLength) {
+        this.filamentWeight = filamentLength;
     }
 
-    public float getWattHours() {
-        return wattHours;
+    public float getHours() {
+        return hours;
     }
 
-    public void setWattHours(float wattHours) {
-        this.wattHours = wattHours;
+    public void setHours(float wattHours) {
+        this.hours = wattHours;
     }
 
-    public boolean getIsPayed() {
-        return isPayed;
-    }
 
-    public void setIsPayed(boolean payed) {
-        isPayed = payed;
-    }
+
 
     @Override
     public String toString() {
@@ -126,9 +178,8 @@ public class Assignment {
                 ", status='" + status + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", filamentLength=" + filamentLength +
-                ", wattHours=" + wattHours +
-                ", isPayed=" + isPayed +
+                ", filamentLength=" + filamentWeight +
+                ", wattHours=" + hours +
                 '}';
     }
 }

@@ -4,21 +4,40 @@ public class AssignmentReplyData {
     private int assignmentId;
     private PlaColor plaColor;
     private AssignmentStatus status;
+    private PaymentStatus paymentStatus;
     private String title;
     private String description;
     private float filamentLength;
     private float wattHours;
-    private boolean isPayed;
 
-    public AssignmentReplyData(int assignmentId, PlaColor plaColor, AssignmentStatus status, String title, String description, float filamentLength, float wattHours, boolean isPayed) {
+    private double price;
+
+    public AssignmentReplyData(int assignmentId, PlaColor plaColor, AssignmentStatus status, PaymentStatus paymentStatus, String title, String description, float filamentLength, float wattHours, double price) {
         this.assignmentId = assignmentId;
         this.plaColor = plaColor;
         this.status = status;
+        this.paymentStatus = paymentStatus;
         this.title = title;
         this.description = description;
         this.filamentLength = filamentLength;
         this.wattHours = wattHours;
-        this.isPayed = isPayed;
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public int getAssignmentId() {
@@ -75,13 +94,5 @@ public class AssignmentReplyData {
 
     public void setWattHours(float wattHours) {
         this.wattHours = wattHours;
-    }
-
-    public boolean isPayed() {
-        return isPayed;
-    }
-
-    public void setPayed(boolean payed) {
-        isPayed = payed;
     }
 }

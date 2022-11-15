@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AssignmentStatusRepository extends CrudRepository<AssignmentStatus,Integer> {
 
-    AssignmentStatus findByStatusCode(int statusCode);
+    AssignmentStatus findByAssignmentStatusCode(int assignmentStatusCode);
+
 }

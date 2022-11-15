@@ -8,9 +8,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TokenRepository extends CrudRepository<Token, Integer> {
     Token findByToken(String tokenValue);
+
+    List<Token> findAllByUserid(User user);
 
     Token findByUserid(User user);
 

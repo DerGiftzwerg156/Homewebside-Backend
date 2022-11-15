@@ -14,7 +14,7 @@ public class AssignmentStatus {
     @Column(name = "status", nullable = false)
     private String assignmentStatus;
 
-    @Column(name = "statusCode", nullable = false)
+    @Column(name = "status_code", nullable = false)
     private int assignmentStatusCode;
 
     public AssignmentStatus(int assignmentStatusId, String assignmentStatus, int assignmentStatusCode) {

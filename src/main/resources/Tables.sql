@@ -41,33 +41,57 @@ Create TABLE IF NOT EXISTS pla_colors
 
 );
 
-INSERT INTO pla_colors (color, is_available) VALUES ('white', true),('blue',true),('black',true),('pink',false);
+INSERT INTO pla_colors (color, is_available)
+VALUES ('Weiß', true),
+       ('Blau', true),
+       ('Schwarz', true),
+       ('Pink', false);
 
 CREATE TABLE IF NOT EXISTS assignment_status
 (
-    status_id  INTEGER      NOT NULL AUTO_INCREMENT,
-    status     VARCHAR(100) NOT NULL,
+    status_id   INTEGER      NOT NULL AUTO_INCREMENT,
+    status      VARCHAR(100) NOT NULL,
     status_code INT          NOT NULL,
     PRIMARY KEY (status_id)
 );
 
-INSERT INTO assignment_status (status, status_code) VALUES ('Bestellt',101),('Bezahlt',102),('In bearbeitung',103),('Versand', 104),('Abbruch angefragt',301),('Abgebrochen',302);
+INSERT INTO assignment_status (status, status_code)
+VALUES ('Bestellt', 101),
+       ('Warte auf Bezahlung', 102),
+       ('Bezahlt', 103),
+       ('In bearbeitung', 104),
+       ('Versand', 105),
+       ('Abbruch angefragt', 301),
+       ('Abgebrochen', 302);
 
+CREATE TABLE IF NOT EXISTS payment_status
+(
+    payment_status_id   INTEGER      NOT NULL AUTO_INCREMENT,
+    payment_status      VARCHAR(100) NOT NULL,
+    payment_status_code INT          NOT NULL,
+    PRIMARY KEY (payment_status_id)
+);
+
+INSERT INTO payment_status (payment_status, payment_status_code)
+VALUES ('Warte auf Bezahlung', 201),
+       ('Bezahlung in Prüfung', 202),
+       ('Bezahlt', 203);
 CREATE TABLE IF NOT EXISTS assignments
 (
-    assignment_id   INTEGER       NOT NULL AUTO_INCREMENT,
-    user_id         INTEGER       NOT NULL,
-    pla_color_id    INTEGER       NOT NULL,
-    status_id          INTEGER       NOT NULL,
-    title           VARCHAR(100)  NOT NULL,
-    description     varchar(2000) NOT NULL,
-    filament_length FLOAT,
-    watt_hours      FLOAT,
-    is_payed        BOOLEAN       NOT NULL,
+    assignment_id     INTEGER        NOT NULL AUTO_INCREMENT,
+    user_id           INTEGER        NOT NULL,
+    pla_color_id      INTEGER        NOT NULL,
+    status_id         INTEGER        NOT NULL,
+    payment_status_id INTEGER        NOT NULL,
+    title             VARCHAR(100)   NOT NULL,
+    description       varchar(10000) NOT NULL,
+    infill            INT            NOT NULL,
+    filament_weight   FLOAT,
+    hours             FLOAT,
+    versand           boolean        NOT NULL,
     PRIMARY KEY (assignment_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
     FOREIGN KEY (pla_color_id) REFERENCES pla_colors (pla_color_id),
-    FOREIGN KEY (status_id) REFERENCES assignment_status(status_id)
-
-
+    FOREIGN KEY (status_id) REFERENCES assignment_status (status_id),
+    FOREIGN KEY (payment_status_id) REFERENCES payment_status (payment_status_id)
 );

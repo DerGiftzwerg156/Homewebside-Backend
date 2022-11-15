@@ -1,11 +1,9 @@
 package com.homewebside.homewebsidebackend.services;
 
 import com.homewebside.homewebsidebackend.entity.*;
-import com.homewebside.homewebsidebackend.interfaces.AssignmentStatusRepository;
-import com.homewebside.homewebsidebackend.interfaces.AssignmentsRepository;
-import com.homewebside.homewebsidebackend.interfaces.PlacolorsRepository;
-import com.homewebside.homewebsidebackend.interfaces.TokenRepository;
+import com.homewebside.homewebsidebackend.interfaces.*;
 import com.homewebside.homewebsidebackend.replyes.AssignmentsReply;
+import com.homewebside.homewebsidebackend.replyes.PlaColorReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
@@ -17,6 +15,11 @@ import java.util.List;
 
 @Service
 public class AssignmentService {
+
+    private double filamentCostPerGramm = 24.99 / 1000; //Kosten Filamentrolle / Gewicht
+    private double powerCost = 0.075; //Cent Pro Stunde
+
+    private double versandKosten = 3.99; //Versandkosten für ein kleines Päckchen
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -30,7 +33,15 @@ public class AssignmentService {
     private AssignmentStatusRepository assignmentStatusRepository;
 
     @Autowired
+    private PaymentStatusCodeRepository paymentStatusCodeRepository;
+
+    @Autowired
     TokenService tokenService;
+
+    private double round(double value) {
+        double d = Math.pow(10, 2);
+        return Math.round(value * d) / d;
+    }
 
     public AssignmentsReply getAllUserAssignments(StandardRequest standardRequest) {
         if (tokenService.isTokenValid(standardRequest.getToken())) {
@@ -40,7 +51,11 @@ public class AssignmentService {
                 AssignmentReplyData[] assignments = new AssignmentReplyData[assignmentsList.size()];
                 for (int i = 0; i < assignmentsList.size(); i++) {
                     Assignment assignment = assignmentsList.get(i);
-                    AssignmentReplyData assignmentsReplyData = new AssignmentReplyData(assignment.getAssignmentId(), assignment.getPlaColor(), assignment.getStatus(), assignment.getTitle(), assignment.getDescription(), assignment.getFilamentLength(), assignment.getWattHours(), assignment.getIsPayed());
+                    double price = round(((assignment.getFilamentWeight() * filamentCostPerGramm) + (assignment.getHours() * powerCost)) * 1.75);
+                    if (assignment.getVersand() && price < 100) {
+                        price = price + versandKosten;
+                    }
+                    AssignmentReplyData assignmentsReplyData = new AssignmentReplyData(assignment.getAssignmentId(), assignment.getPlaColor(), assignment.getStatus(), assignment.getPaymentStatus(), assignment.getTitle(), assignment.getDescription(), assignment.getFilamentWeight(), assignment.getHours(), price);
                     assignments[i] = assignmentsReplyData;
                 }
                 return new AssignmentsReply(assignments, new Reply("All Assignments found", true));
@@ -52,13 +67,27 @@ public class AssignmentService {
 
     }
 
+    public PlaColorReply getAllPlaColors() {
+        PlaColorReply plaColorReply;
+        List<PlaColor> plaColorList = plaColorRepository.findAll();
+        PlaColor[] plaColors = new PlaColor[plaColorList.size()];
+        for (int i = 0; i < plaColorList.size(); i++) {
+            PlaColor plaColor = plaColorList.get(i);
+            plaColors[i] = plaColor;
+        }
+        plaColorReply = new PlaColorReply(plaColors, new Reply("All Colors found successfully", true));
+        return plaColorReply;
+    }
+
     public Reply createNewAssignment(NewAssignmentRequest newAssignmentRequest) {
-        if (tokenService.isTokenValid(newAssignmentRequest.getToken())) {
-            if (tokenRepository.findByToken(newAssignmentRequest.getToken()) != null) {
-                User user = tokenRepository.findByToken(newAssignmentRequest.getToken()).getUserid();
-                PlaColor plaColor = plaColorRepository.findByColor(newAssignmentRequest.getColor());
-                AssignmentStatus assignmentStatus = assignmentStatusRepository.findByStatusCode(101);
-                Assignment assignment = new Assignment(user, plaColor, assignmentStatus, newAssignmentRequest.getTitle(), newAssignmentRequest.getDescription(), false);
+        System.out.println("Pla-Color: " +newAssignmentRequest.getPlaColor());
+        if (tokenService.isTokenValid(newAssignmentRequest.getStandardRequest().getToken())) {
+            if (tokenRepository.findByToken(newAssignmentRequest.getStandardRequest().getToken()) != null) {
+                User user = tokenRepository.findByToken(newAssignmentRequest.getStandardRequest().getToken()).getUserid();
+                PlaColor plaColor = plaColorRepository.findByColor(newAssignmentRequest.getPlaColor().getColor());
+                AssignmentStatus assignmentStatus = assignmentStatusRepository.findByAssignmentStatusCode(101);
+                PaymentStatus paymentStatus = paymentStatusCodeRepository.findByPaymentStatusCode(201);
+                Assignment assignment = new Assignment(user, plaColor, assignmentStatus, paymentStatus, newAssignmentRequest.getTitle(), newAssignmentRequest.getDescription(), newAssignmentRequest.getInfill(), newAssignmentRequest.isVersand());
                 assignmentsRepository.save(assignment);
                 return new Reply("Successfully created new Assignment", true);
             } else {

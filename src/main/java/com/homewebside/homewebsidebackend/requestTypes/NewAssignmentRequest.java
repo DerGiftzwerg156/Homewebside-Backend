@@ -1,17 +1,25 @@
 package com.homewebside.homewebsidebackend.requestTypes;
 
+import com.homewebside.homewebsidebackend.entity.PlaColor;
+
 public class NewAssignmentRequest {
     private String title;
     private String description;
 
-    private String color;
-    private String token;
+    private PlaColor plaColor;
 
-    public NewAssignmentRequest(String title, String description,String color, String token) {
+    private boolean versand;
+
+    private int infill;
+    private StandardRequest standardRequest;
+
+    public NewAssignmentRequest(String title, String description, PlaColor plaColor, boolean versand, int infill, StandardRequest standardRequest) {
         this.title = title;
         this.description = description;
-        this.color = color;
-        this.token = token;
+        this.plaColor = plaColor;
+        this.versand = versand;
+        this.infill = infill;
+        this.standardRequest = standardRequest;
     }
 
     public String getTitle() {
@@ -30,19 +38,35 @@ public class NewAssignmentRequest {
         this.description = description;
     }
 
-    public String getColor() {
-        return color;
+    public PlaColor getPlaColor() {
+        return plaColor;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setPlaColor(PlaColor plaColor) {
+        this.plaColor = plaColor;
     }
 
-    public String getToken() {
-        return token;
+    public boolean isVersand() {
+        return versand;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setVersand(boolean versand) {
+        this.versand = versand;
+    }
+
+    public int getInfill() {
+        return infill;
+    }
+
+    public void setInfill(int infill) {
+        this.infill = infill;
+    }
+
+    public StandardRequest getStandardRequest() {
+        return standardRequest;
+    }
+
+    public void setStandardRequest(StandardRequest standardRequest) {
+        this.standardRequest = standardRequest;
     }
 }
