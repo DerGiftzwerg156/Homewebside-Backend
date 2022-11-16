@@ -72,6 +72,21 @@ CREATE TABLE IF NOT EXISTS payment_status
     PRIMARY KEY (payment_status_id)
 );
 
+CREATE TABLE delivery_options
+(
+    delivery_options_id  INTEGER      NOT NULL AUTO_INCREMENT,
+    delivery_name        VARCHAR(100) NOT NULL,
+    delivery_description VARCHAR(500) NOT NULL,
+
+    delivery_price       DOUBLE       NOT NULL,
+    PRIMARY KEY (delivery_options_id)
+);
+
+INSERT INTO delivery_options(delivery_name, delivery_description, delivery_price)
+VALUES('Abholung','Abholung in 26127 Oldenburg', 0),
+    ('DHL Päckchen S', '2kg | max.35x25x10cm', 3.99),
+       ('DHL Packet', '2kg | max.60x30x15 | Sendungsverfolgung', 5.49);
+
 INSERT INTO payment_status (payment_status, payment_status_code)
 VALUES ('Warte auf Bezahlung', 201),
        ('Bezahlung in Prüfung', 202),
@@ -88,10 +103,11 @@ CREATE TABLE IF NOT EXISTS assignments
     infill            INT            NOT NULL,
     filament_weight   FLOAT,
     hours             FLOAT,
-    versand           boolean        NOT NULL,
+    delivery_id       INTEGER        NOT NULL,
     PRIMARY KEY (assignment_id),
     FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
     FOREIGN KEY (pla_color_id) REFERENCES pla_colors (pla_color_id),
     FOREIGN KEY (status_id) REFERENCES assignment_status (status_id),
-    FOREIGN KEY (payment_status_id) REFERENCES payment_status (payment_status_id)
+    FOREIGN KEY (payment_status_id) REFERENCES payment_status (payment_status_id),
+    FOREIGN KEY (delivery_id) REFERENCES delivery_options (delivery_options_id)
 );

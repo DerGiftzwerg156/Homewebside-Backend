@@ -1,5 +1,6 @@
 package com.homewebside.homewebsidebackend.requestTypes;
 
+import com.homewebside.homewebsidebackend.entity.DeliveryOption;
 import com.homewebside.homewebsidebackend.entity.PlaColor;
 
 public class NewAssignmentRequest {
@@ -8,16 +9,16 @@ public class NewAssignmentRequest {
 
     private PlaColor plaColor;
 
-    private boolean versand;
+    private DeliveryOption deliveryOption;
 
     private int infill;
     private StandardRequest standardRequest;
 
-    public NewAssignmentRequest(String title, String description, PlaColor plaColor, boolean versand, int infill, StandardRequest standardRequest) {
+    public NewAssignmentRequest(String title, String description, PlaColor plaColor, DeliveryOption deliveryOption, int infill, StandardRequest standardRequest) {
         this.title = title;
         this.description = description;
         this.plaColor = plaColor;
-        this.versand = versand;
+        this.deliveryOption = deliveryOption;
         this.infill = infill;
         this.standardRequest = standardRequest;
     }
@@ -46,12 +47,12 @@ public class NewAssignmentRequest {
         this.plaColor = plaColor;
     }
 
-    public boolean isVersand() {
-        return versand;
+    public DeliveryOption getDeliveryOption() {
+        return deliveryOption;
     }
 
-    public void setVersand(boolean versand) {
-        this.versand = versand;
+    public void setDeliveryOption(DeliveryOption deliveryOption) {
+        this.deliveryOption = deliveryOption;
     }
 
     public int getInfill() {

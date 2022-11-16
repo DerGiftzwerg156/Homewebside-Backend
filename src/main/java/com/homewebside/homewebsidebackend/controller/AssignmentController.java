@@ -1,7 +1,7 @@
 package com.homewebside.homewebsidebackend.controller;
 
 import com.homewebside.homewebsidebackend.replyes.AssignmentsReply;
-import com.homewebside.homewebsidebackend.replyes.PlaColorReply;
+import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
@@ -27,8 +27,8 @@ public class AssignmentController {
         return assignmentService.createNewAssignment(newAssignmentRequest);
     }
 
-    @GetMapping("/getAllPlaColors")
-    private PlaColorReply getAllPlaColors(){
+    @GetMapping("/getColorsAndDeliveryOptions")
+    private ColorAndDeliveryOptionsReply getAllPlaColors(){
         return assignmentService.getAllPlaColors();
     }
 }

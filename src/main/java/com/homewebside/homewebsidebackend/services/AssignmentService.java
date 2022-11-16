@@ -3,7 +3,7 @@ package com.homewebside.homewebsidebackend.services;
 import com.homewebside.homewebsidebackend.entity.*;
 import com.homewebside.homewebsidebackend.interfaces.*;
 import com.homewebside.homewebsidebackend.replyes.AssignmentsReply;
-import com.homewebside.homewebsidebackend.replyes.PlaColorReply;
+import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
@@ -36,6 +36,9 @@ public class AssignmentService {
     private PaymentStatusCodeRepository paymentStatusCodeRepository;
 
     @Autowired
+    DeliveryOptionsRepository deliveryOptionsRepository;
+
+    @Autowired
     TokenService tokenService;
 
     private double round(double value) {
@@ -52,7 +55,7 @@ public class AssignmentService {
                 for (int i = 0; i < assignmentsList.size(); i++) {
                     Assignment assignment = assignmentsList.get(i);
                     double price = round(((assignment.getFilamentWeight() * filamentCostPerGramm) + (assignment.getHours() * powerCost)) * 1.75);
-                    if (assignment.getVersand() && price < 100) {
+                    if (assignment.getDeliveryOptions() != null && price < 100) {
                         price = price + versandKosten;
                     }
                     AssignmentReplyData assignmentsReplyData = new AssignmentReplyData(assignment.getAssignmentId(), assignment.getPlaColor(), assignment.getStatus(), assignment.getPaymentStatus(), assignment.getTitle(), assignment.getDescription(), assignment.getFilamentWeight(), assignment.getHours(), price);
@@ -67,27 +70,35 @@ public class AssignmentService {
 
     }
 
-    public PlaColorReply getAllPlaColors() {
-        PlaColorReply plaColorReply;
+    public ColorAndDeliveryOptionsReply getAllPlaColors() {
+        ColorAndDeliveryOptionsReply colorAndDeliveryOptionsReply;
+        List<DeliveryOption> deliveryOptionsList = deliveryOptionsRepository.findAll();
+        DeliveryOption[] deliveryOptions = new DeliveryOption[deliveryOptionsList.size()];
+        for (int i = 0; i < deliveryOptionsList.size(); i++) {
+            DeliveryOption deliveryOption = deliveryOptionsList.get(i);
+            deliveryOptions[i] = deliveryOption;
+        }
         List<PlaColor> plaColorList = plaColorRepository.findAll();
         PlaColor[] plaColors = new PlaColor[plaColorList.size()];
         for (int i = 0; i < plaColorList.size(); i++) {
             PlaColor plaColor = plaColorList.get(i);
             plaColors[i] = plaColor;
         }
-        plaColorReply = new PlaColorReply(plaColors, new Reply("All Colors found successfully", true));
-        return plaColorReply;
+        colorAndDeliveryOptionsReply = new ColorAndDeliveryOptionsReply(plaColors, deliveryOptions, new Reply("All Data found successfully", true));
+        return colorAndDeliveryOptionsReply;
     }
 
     public Reply createNewAssignment(NewAssignmentRequest newAssignmentRequest) {
-        System.out.println("Pla-Color: " +newAssignmentRequest.getPlaColor());
+        System.out.println("Pla-Color: " + newAssignmentRequest.getPlaColor());
         if (tokenService.isTokenValid(newAssignmentRequest.getStandardRequest().getToken())) {
             if (tokenRepository.findByToken(newAssignmentRequest.getStandardRequest().getToken()) != null) {
                 User user = tokenRepository.findByToken(newAssignmentRequest.getStandardRequest().getToken()).getUserid();
                 PlaColor plaColor = plaColorRepository.findByColor(newAssignmentRequest.getPlaColor().getColor());
                 AssignmentStatus assignmentStatus = assignmentStatusRepository.findByAssignmentStatusCode(101);
                 PaymentStatus paymentStatus = paymentStatusCodeRepository.findByPaymentStatusCode(201);
-                Assignment assignment = new Assignment(user, plaColor, assignmentStatus, paymentStatus, newAssignmentRequest.getTitle(), newAssignmentRequest.getDescription(), newAssignmentRequest.getInfill(), newAssignmentRequest.isVersand());
+                DeliveryOption deliveryOption = deliveryOptionsRepository.findByDeliveryName(newAssignmentRequest.getDeliveryOption().getDeliveryName());
+                System.out.println(deliveryOption);
+                Assignment assignment = new Assignment(user, plaColor, assignmentStatus, paymentStatus, newAssignmentRequest.getTitle(), newAssignmentRequest.getDescription(), newAssignmentRequest.getInfill(), deliveryOption);
                 assignmentsRepository.save(assignment);
                 return new Reply("Successfully created new Assignment", true);
             } else {

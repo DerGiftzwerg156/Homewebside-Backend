@@ -1,15 +1,26 @@
 package com.homewebside.homewebsidebackend.replyes;
 
+import com.homewebside.homewebsidebackend.entity.DeliveryOption;
 import com.homewebside.homewebsidebackend.entity.PlaColor;
 
-public class PlaColorReply {
+public class ColorAndDeliveryOptionsReply {
 
     PlaColor[] plaColors;
+    DeliveryOption[] deliveryOptions;
     Reply reply;
 
-    public PlaColorReply(PlaColor[] plaColors, Reply reply) {
+    public ColorAndDeliveryOptionsReply(PlaColor[] plaColors, DeliveryOption[] deliveryOptions, Reply reply) {
         this.plaColors = plaColors;
+        this.deliveryOptions = deliveryOptions;
         this.reply = reply;
+    }
+
+    public DeliveryOption[] getDeliveryOptions() {
+        return deliveryOptions;
+    }
+
+    public void setDeliveryOptions(DeliveryOption[] deliveryOptions) {
+        this.deliveryOptions = deliveryOptions;
     }
 
     public PlaColor[] getPlaColors() {

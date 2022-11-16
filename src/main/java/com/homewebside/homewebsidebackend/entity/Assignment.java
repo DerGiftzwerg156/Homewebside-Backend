@@ -31,8 +31,8 @@ public class Assignment {
 
     @Column(name = "description", nullable = false)
     private String description;
-    
-    @Column(name = "infill",nullable = false)
+
+    @Column(name = "infill", nullable = false)
     private int infill;
 
     @Column(name = "filament_weight")
@@ -41,10 +41,11 @@ public class Assignment {
     @Column(name = "hours")
     private float hours;
 
-    @Column(name = "versand", nullable = false)
-    private boolean versand;
+    @ManyToOne
+    @JoinColumn(name = "delivery_id", nullable = false)
+    private DeliveryOption deliveryOption;
 
-    public Assignment(User user, PlaColor plaColor, AssignmentStatus status, PaymentStatus paymentStatus, String title, String description,int infill, boolean versand) {
+    public Assignment(User user, PlaColor plaColor, AssignmentStatus status, PaymentStatus paymentStatus, String title, String description, int infill, DeliveryOption deliveryOption) {
         this.userId = user;
         this.plaColorId = plaColor;
         this.status = status;
@@ -52,7 +53,7 @@ public class Assignment {
         this.title = title;
         this.description = description;
         this.infill = infill;
-        this.versand = versand;
+        this.deliveryOption = deliveryOption;
     }
 
     public int getInfill() {
@@ -62,19 +63,6 @@ public class Assignment {
     public void setInfill(int infill) {
         this.infill = infill;
     }
-
-    public boolean isVersand() {
-        return versand;
-    }
-
-    public boolean getVersand() {
-        return versand;
-    }
-
-    public void setVersand(boolean versand) {
-        this.versand = versand;
-    }
-
     public Assignment() {
     }
 
@@ -166,8 +154,13 @@ public class Assignment {
         this.hours = wattHours;
     }
 
+    public DeliveryOption getDeliveryOptions() {
+        return deliveryOption;
+    }
 
-
+    public void setDeliveryOptions(DeliveryOption deliveryOption) {
+        this.deliveryOption = deliveryOption;
+    }
 
     @Override
     public String toString() {
