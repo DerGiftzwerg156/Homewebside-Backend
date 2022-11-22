@@ -61,6 +61,7 @@ VALUES ('Bestellt', 101),
        ('Bezahlt', 103),
        ('In bearbeitung', 104),
        ('Versand', 105),
+       ('Abgeschlossen',106),
        ('Abbruch angefragt', 301),
        ('Abgebrochen', 302);
 
