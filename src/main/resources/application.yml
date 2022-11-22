@@ -16,3 +16,11 @@ spring:
   #      ddl-auto: update
   jooq:
     sql-dialect: org.hibernate.dialect.MySQL5Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: noreplykenosserver@gmail.com
+    password: lwiwfysadgmfgzds
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
