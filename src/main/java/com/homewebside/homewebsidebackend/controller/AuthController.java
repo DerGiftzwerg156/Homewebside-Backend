@@ -2,6 +2,7 @@ package com.homewebside.homewebsidebackend.controller;
 
 import com.homewebside.homewebsidebackend.replyes.LoginReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
+import com.homewebside.homewebsidebackend.requestTypes.ActivateAccountRequest;
 import com.homewebside.homewebsidebackend.requestTypes.LoginDataRequest;
 import com.homewebside.homewebsidebackend.requestTypes.RegisterDataRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
@@ -29,6 +30,11 @@ public class AuthController {
     @PostMapping("/login")
     public LoginReply login(@RequestBody LoginDataRequest loginDataRequest) {
         return authService.login(loginDataRequest);
+    }
+
+    @PostMapping("/activateAccount")
+    public Reply activateAccount(@RequestBody ActivateAccountRequest activateAccountRequest){
+        return authService.verifyAccount(activateAccountRequest.getVerificationCode());
     }
 
     @PostMapping("/validateToken")

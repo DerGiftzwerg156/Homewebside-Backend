@@ -1,11 +1,13 @@
 CREATE TABLE IF NOT EXISTS user
 (
-    user_id    INTEGER      NOT NULL AUTO_INCREMENT,
-    first_name VARCHAR(40)  NOT NULL,
-    last_name  VARCHAR(40)  NOT NULL,
-    email      varchar(300) NOT NULL,
-    password   int          NOT NULL,
-    role       varchar(20)  NOT NULL,
+    user_id          INTEGER      NOT NULL AUTO_INCREMENT,
+    first_name       VARCHAR(40)  NOT NULL,
+    last_name        VARCHAR(40)  NOT NULL,
+    email            varchar(300) NOT NULL,
+    password         int          NOT NULL,
+    role             varchar(20)  NOT NULL,
+    verificationCode varchar(60)  NOT NULL,
+    activated        boolean      NOT NULL,
     PRIMARY KEY (user_id)
 );
 
@@ -61,7 +63,7 @@ VALUES ('Bestellt', 101),
        ('Bezahlt', 103),
        ('In bearbeitung', 104),
        ('Versand', 105),
-       ('Abgeschlossen',106),
+       ('Abgeschlossen', 106),
        ('Abbruch angefragt', 301),
        ('Abgebrochen', 302);
 
@@ -84,8 +86,8 @@ CREATE TABLE delivery_options
 );
 
 INSERT INTO delivery_options(delivery_name, delivery_description, delivery_price)
-VALUES('Abholung','Abholung in 26127 Oldenburg', 0),
-    ('DHL Päckchen S', '2kg | max.35x25x10cm', 3.99),
+VALUES ('Abholung', 'Abholung in 26127 Oldenburg', 0),
+       ('DHL Päckchen S', '2kg | max.35x25x10cm', 3.99),
        ('DHL Packet', '2kg | max.60x30x15 | Sendungsverfolgung', 5.49);
 
 INSERT INTO payment_status (payment_status, payment_status_code)
