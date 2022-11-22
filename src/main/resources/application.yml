@@ -6,7 +6,7 @@ spring:
     init:
       mode: always
   datasource:
-    url: jdbc:mariadb://192.168.178.69:3306/3DDrucker-Dev
+    url: jdbc:mariadb://192.168.178.69:3306/3DDrucker-dev
     username: root
     password: Password1
     initialization-mode: always
