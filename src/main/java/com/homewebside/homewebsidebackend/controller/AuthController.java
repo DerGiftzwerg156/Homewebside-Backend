@@ -4,6 +4,7 @@ import com.homewebside.homewebsidebackend.replyes.LoginReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.requestTypes.LoginDataRequest;
 import com.homewebside.homewebsidebackend.requestTypes.RegisterDataRequest;
+import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
 import com.homewebside.homewebsidebackend.services.AuthService;
 import com.homewebside.homewebsidebackend.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,8 @@ public class AuthController {
     }
 
     @PostMapping("/validateToken")
-    public Reply validateToken(@RequestBody String token) {
-
-        if (tokenService.isTokenValid(token)) {
+    public Reply validateToken(@RequestBody StandardRequest token) {
+        if (tokenService.isTokenValid(token.getToken())) {
             return new Reply("Token is Valid", true);
         } else {
             return new Reply("Token invalid", false);
