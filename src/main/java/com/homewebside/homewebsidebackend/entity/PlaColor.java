@@ -17,8 +17,7 @@ public class PlaColor {
     @Column(name = "is_available",nullable = false)
     private boolean isAvailable;
 
-    public PlaColor(int plaColorId, String color, boolean isAvailable) {
-        this.plaColorId = plaColorId;
+    public PlaColor(String color, boolean isAvailable) {
         this.color = color;
         this.isAvailable = isAvailable;
     }

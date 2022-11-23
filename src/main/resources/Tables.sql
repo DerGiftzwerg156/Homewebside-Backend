@@ -114,3 +114,14 @@ CREATE TABLE IF NOT EXISTS assignments
     FOREIGN KEY (payment_status_id) REFERENCES payment_status (payment_status_id),
     FOREIGN KEY (delivery_id) REFERENCES delivery_options (delivery_options_id)
 );
+
+CREATE TABLE IF NOT EXISTS products
+(
+    product_id          INTEGER        NOT NULL AUTO_INCREMENT,
+    product_name        VARCHAR(100)   NOT NULL,
+    product_description VARCHAR(10000) NOT NULL,
+    product_price       DOUBLE         NOT NULL,
+    product_size        VARCHAR(100)   NOT NULL,
+    product_picture     VARCHAR(1000)  NOT NULL,
+    PRIMARY KEY (product_id)
+)

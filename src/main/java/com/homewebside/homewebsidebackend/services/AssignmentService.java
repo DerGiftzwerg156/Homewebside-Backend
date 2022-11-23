@@ -2,7 +2,7 @@ package com.homewebside.homewebsidebackend.services;
 
 import com.homewebside.homewebsidebackend.entity.*;
 import com.homewebside.homewebsidebackend.interfaces.*;
-import com.homewebside.homewebsidebackend.replyes.AssignmentsReply;
+import com.homewebside.homewebsidebackend.replyes.AssignmentDataReply;
 import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
@@ -27,7 +27,7 @@ public class AssignmentService {
     private AssignmentsRepository assignmentsRepository;
 
     @Autowired
-    private PlacolorsRepository plaColorRepository;
+    private PlaColorsRepository plaColorRepository;
 
     @Autowired
     private AssignmentStatusRepository assignmentStatusRepository;
@@ -46,7 +46,7 @@ public class AssignmentService {
         return Math.round(value * d) / d;
     }
 
-    public AssignmentsReply getAllUserAssignments(StandardRequest standardRequest) {
+    public AssignmentDataReply getAllUserAssignments(StandardRequest standardRequest) {
         if (tokenService.isTokenValid(standardRequest.getToken())) {
             if (tokenRepository.findByToken(standardRequest.getToken()) != null) {
                 User user = tokenRepository.findByToken(standardRequest.getToken()).getUserid();
@@ -61,12 +61,12 @@ public class AssignmentService {
                     AssignmentReplyData assignmentsReplyData = new AssignmentReplyData(assignment.getAssignmentId(), assignment.getPlaColor(), assignment.getStatus(), assignment.getPaymentStatus(), assignment.getTitle(), assignment.getDescription(), assignment.getFilamentWeight(), assignment.getHours(), price);
                     assignments[i] = assignmentsReplyData;
                 }
-                return new AssignmentsReply(assignments, new Reply("All Assignments found", true));
+                return new AssignmentDataReply(assignments, new Reply("All Assignments found", true));
             }
-            return new AssignmentsReply(null, new Reply("Failure", false));
+            return new AssignmentDataReply(null, new Reply("Failure", false));
 
         } else
-            return new AssignmentsReply(null, new Reply("Token is Invalid, please login again!", false));
+            return new AssignmentDataReply(null, new Reply("Token is Invalid, please login again!", false));
 
     }
 

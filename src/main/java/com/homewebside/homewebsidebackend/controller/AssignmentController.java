@@ -1,6 +1,6 @@
 package com.homewebside.homewebsidebackend.controller;
 
-import com.homewebside.homewebsidebackend.replyes.AssignmentsReply;
+import com.homewebside.homewebsidebackend.replyes.AssignmentDataReply;
 import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
@@ -18,7 +18,7 @@ public class AssignmentController {
     private AssignmentService assignmentService;
 
     @PostMapping("/getAllUserAssignments")
-    private AssignmentsReply getAllUserAssignments(@RequestBody StandardRequest standardRequest){
+    private AssignmentDataReply getAllUserAssignments(@RequestBody StandardRequest standardRequest){
         return assignmentService.getAllUserAssignments(standardRequest);
     }
 

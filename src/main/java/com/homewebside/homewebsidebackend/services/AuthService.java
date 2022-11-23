@@ -1,6 +1,5 @@
 package com.homewebside.homewebsidebackend.services;
 
-import com.homewebside.homewebsidebackend.entity.MailDetails;
 import com.homewebside.homewebsidebackend.entity.Token;
 import com.homewebside.homewebsidebackend.entity.User;
 import com.homewebside.homewebsidebackend.interfaces.MailService;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Base64;
-import java.util.List;
 
 @Service
 public class AuthService {
@@ -41,16 +39,16 @@ public class AuthService {
             return new Reply("Email already registered", false);
         }
         String verificationCode = generateToken();
-        mailService.sendVerificationMail(registerDataRequest.getMail(),registerDataRequest.getFirstName(),verificationCode);
-        userRepository.save(new User(registerDataRequest.getFirstName(), registerDataRequest.getLastName(), registerDataRequest.getMail(), registerDataRequest.getPassword().hashCode(), "user",verificationCode));
+        mailService.sendVerificationMail(registerDataRequest.getMail(), registerDataRequest.getFirstName(), verificationCode);
+        userRepository.save(new User(registerDataRequest.getFirstName(), registerDataRequest.getLastName(), registerDataRequest.getMail(), registerDataRequest.getPassword().hashCode(), "user", verificationCode));
         return new Reply("Successfully created User", true);
     }
 
     public LoginReply login(LoginDataRequest loginDataRequest) {
         if (userRepository.findByMail(loginDataRequest.getMail()) != null) {
             User existingUser = userRepository.findByMail(loginDataRequest.getMail());
-            if(!existingUser.isAccountActivated()){
-                return new LoginReply("","","","Account not Activated", false);
+            if (!existingUser.isAccountActivated()) {
+                return new LoginReply("", "", "", "Account not Activated", false);
             }
             if (existingUser.getPassword() == loginDataRequest.getPassword().hashCode()) {
                 if (tokenRepository.findByUserid(existingUser) != null) {
@@ -65,14 +63,14 @@ public class AuthService {
         return new LoginReply("", "", "", "Wrong Login Data", false);
     }
 
-    public Reply verifyAccount(String verificationCode){
+    public Reply verifyAccount(String verificationCode) {
         User user = userRepository.findByVerificationCode(verificationCode);
-        if(user != null){
+        if (user != null) {
             user.setAccountActivated(true);
             user.setVerificationCode("");
             userRepository.save(user);
             return new Reply("Verification successfully", true);
-        }else {
+        } else {
             return new Reply("Verification Code not exists.", false);
         }
     }
@@ -85,5 +83,10 @@ public class AuthService {
 
     private boolean checkUserExist(String mail) {
         return userRepository.findByMail(mail) != null;
+    }
+
+    public boolean checkIfAdmin(String token) {
+        User user = tokenRepository.findByToken(token).getUserid();
+        return user.getRole().equals("admin");
     }
 }

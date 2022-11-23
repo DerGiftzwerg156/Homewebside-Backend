@@ -1,15 +1,13 @@
 package com.homewebside.homewebsidebackend.replyes;
 
-import com.homewebside.homewebsidebackend.entity.Assignment;
 import com.homewebside.homewebsidebackend.entity.AssignmentReplyData;
-import com.homewebside.homewebsidebackend.entity.PlaColor;
 
-public class AssignmentsReply {
+public class AssignmentDataReply {
     private AssignmentReplyData[] assignments;
 
     private Reply reply;
 
-    public AssignmentsReply(AssignmentReplyData[] assignments, Reply reply) {
+    public AssignmentDataReply(AssignmentReplyData[] assignments, Reply reply) {
         this.assignments = assignments;
         this.reply = reply;
     }

@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlacolorsRepository extends CrudRepository<PlaColor,Integer> {
+public interface PlaColorsRepository extends CrudRepository<PlaColor,Integer> {
+
+    PlaColor findByPlaColorId(int plaColorId);
 
     PlaColor findByColor(String color);
 

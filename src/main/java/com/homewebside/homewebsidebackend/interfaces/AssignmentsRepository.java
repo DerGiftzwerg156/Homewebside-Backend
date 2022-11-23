@@ -11,4 +11,6 @@ import java.util.List;
 public interface AssignmentsRepository extends CrudRepository<Assignment, Integer> {
 
     List<Assignment> findAllByUserId(User user);
+
+    List<Assignment> findAll();
 }
