@@ -124,4 +124,13 @@ CREATE TABLE IF NOT EXISTS products
     product_size        VARCHAR(100)   NOT NULL,
     product_picture     VARCHAR(1000)  NOT NULL,
     PRIMARY KEY (product_id)
-)
+);
+
+INSERT INTO products (product_name, product_description, product_price, product_size, product_picture)
+VALUES ('Erstes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
+       ('Zweites Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
+       ('Drittes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
+       ('Viertes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
+       ('Fünftes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
+       ('Sechstes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
+       ('Siebtes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures');
