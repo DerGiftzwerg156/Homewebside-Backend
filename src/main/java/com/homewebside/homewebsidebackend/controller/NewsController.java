@@ -15,9 +15,9 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping("/getLastFive")
-    private NewsReply getLastFiveNews() {
-        return newsService.getLastFiveNews();
+    @GetMapping("/getLastNews")
+    private NewsReply getLastNews() {
+        return newsService.getLastNews();
     }
 
     @GetMapping("/getAllNews")

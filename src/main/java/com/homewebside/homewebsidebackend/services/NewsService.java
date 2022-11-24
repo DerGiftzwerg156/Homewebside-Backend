@@ -8,7 +8,7 @@ import com.homewebside.homewebsidebackend.requestTypes.NewNewsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,8 +27,8 @@ public class NewsService {
     public Reply createNewNews(NewNewsRequest newNewsRequest) {
         if (tokenService.isTokenValid(newNewsRequest.getToken())) {
             if (authService.checkIfAdmin(newNewsRequest.getToken())) {
-                Timestamp actualTimestamp = new Timestamp(System.currentTimeMillis());
-                News news = new News(newNewsRequest.getNewsTitle(), newNewsRequest.getNewsText(), actualTimestamp);
+                Date date = new Date();
+                News news = new News(newNewsRequest.getNewsTitle(), newNewsRequest.getNewsText(), date, "Placeholder");
                 newsRepository.save(news);
                 return new Reply("Success", true);
             } else {
@@ -45,10 +45,10 @@ public class NewsService {
         return new NewsReply(news, new Reply("Success", true));
     }
 
-    public NewsReply getLastFiveNews() {
+    public NewsReply getLastNews() {
         List<News> newsList = newsRepository.findAll();
-        News[] news = new News[newsList.size()];
-        for (int i = 0; i < 5; i++) {
+        News[] news = new News[1];
+        for (int i = 0; i < 1; i++) {
             news[i] = newsList.get(i);
         }
         return new NewsReply(news, new Reply("Success", true));

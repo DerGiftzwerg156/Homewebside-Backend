@@ -140,6 +140,25 @@ CREATE TABLE IF NOT EXISTS news
     news_id      INTEGER        NOT NULL AUTO_INCREMENT,
     news_title   VARCHAR(100)   NOT NULL,
     news_text    VARCHAR(10000) NOT NULL,
-    release_date TIMESTAMP      NOT NULL,
+    release_date DATE           NOT NULL,
+    picture      VARCHAR(100)   NOT NULL,
     PRIMARY KEY (news_id)
 );
+
+INSERT INTO news (news_title, news_text, release_date, picture) VALUE ('Die ersten News','<h3>Der zweite Prototyp ist jetzt online.</h3>
+
+<p>Der zweite Prototyp meiner Seite ist jetzt online. Dabei wurde viele neue Komponenten hinzugefügt.</p>
+
+<h4>Landing Page</h4>
+
+<p>Es gibt jetzt eine Landing Page. Hier gibt es generelle Infos über diesen Online-Shop und seine Funktionen. <br>
+
+Ebenfalls werden immer die neusten News ganz oben angezeigt.</p>
+
+<h4>News Seite</h4>
+
+<p>Hier gibt es immer die neusten News zu meinem Shop oder allem was dahinter steckt.</p>
+
+<h4>Shop Seite</h4>
+
+<p>Hier gibt es Produkte, welche ich schon erstellt habe, die man einfach so bestellen kann. Zudem gibt es auch die Möglichkeit, dass man seinen eigenen persönlichen Auftrag erstellen kann.</p>', 2022-11-24, 'FirstNewsPicture.jpeg')

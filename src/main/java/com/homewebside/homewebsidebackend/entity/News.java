@@ -1,7 +1,7 @@
 package com.homewebside.homewebsidebackend.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "news")
@@ -19,12 +19,24 @@ public class News {
     private String newsText;
 
     @Column(name = "release_date")
-    private Timestamp releaseDate;
+    private Date releaseDate;
 
-    public News(String newsTitle, String newsText, Timestamp releaseDate) {
+    @Column(name = "picture")
+    private String pictureName;
+
+    public News(String newsTitle, String newsText, Date releaseDate, String pictureName) {
         this.newsTitle = newsTitle;
         this.newsText = newsText;
         this.releaseDate = releaseDate;
+        this.pictureName = pictureName;
+    }
+
+    public String getPictureName() {
+        return pictureName;
+    }
+
+    public void setPictureName(String pictureName) {
+        this.pictureName = pictureName;
     }
 
     public News() {
@@ -50,11 +62,11 @@ public class News {
         this.newsText = newsText;
     }
 
-    public Timestamp getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Timestamp releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 }
