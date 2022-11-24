@@ -134,3 +134,12 @@ VALUES ('Erstes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
        ('Fünftes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
        ('Sechstes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures'),
        ('Siebtes Produkt', 'Test Text', 5.99, '16x16', 'No Pictures');
+
+CREATE TABLE IF NOT EXISTS news
+(
+    news_id      INTEGER        NOT NULL AUTO_INCREMENT,
+    news_title   VARCHAR(100)   NOT NULL,
+    news_text    VARCHAR(10000) NOT NULL,
+    release_date TIMESTAMP      NOT NULL,
+    PRIMARY KEY (news_id)
+);
