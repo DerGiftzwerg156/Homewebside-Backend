@@ -5,6 +5,7 @@ import com.homewebside.homewebsidebackend.interfaces.*;
 import com.homewebside.homewebsidebackend.replyes.AssignmentDataReply;
 import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
+import com.homewebside.homewebsidebackend.replyes.StatusesReply;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,23 +52,43 @@ public class AssignmentService {
             if (tokenRepository.findByToken(standardRequest.getToken()) != null) {
                 User user = tokenRepository.findByToken(standardRequest.getToken()).getUserid();
                 List<Assignment> assignmentsList = assignmentsRepository.findAllByUserId(user);
-                AssignmentReplyData[] assignments = new AssignmentReplyData[assignmentsList.size()];
-                for (int i = 0; i < assignmentsList.size(); i++) {
-                    Assignment assignment = assignmentsList.get(i);
-                    double price = round(((assignment.getFilamentWeight() * filamentCostPerGramm) + (assignment.getHours() * powerCost)) * 1.75);
-                    if (assignment.getDeliveryOptions() != null && price < 100) {
-                        price = price + versandKosten;
-                    }
-                    AssignmentReplyData assignmentsReplyData = new AssignmentReplyData(assignment.getAssignmentId(), assignment.getPlaColor(), assignment.getStatus(), assignment.getPaymentStatus(), assignment.getTitle(), assignment.getDescription(), assignment.getFilamentWeight(), assignment.getHours(), price);
-                    assignments[i] = assignmentsReplyData;
-                }
-                return new AssignmentDataReply(assignments, new Reply("All Assignments found", true));
+                return getAssignmentDataReply(assignmentsList);
             }
             return new AssignmentDataReply(null, new Reply("Failure", false));
 
         } else
             return new AssignmentDataReply(null, new Reply("Token is Invalid, please login again!", false));
 
+    }
+
+    public AssignmentDataReply getAllAssignments(StandardRequest standardRequest) {
+        if (tokenService.isTokenValid(standardRequest.getToken())) {
+            if (tokenRepository.findByToken(standardRequest.getToken()) != null) {
+                User user = tokenRepository.findByToken(standardRequest.getToken()).getUserid();
+                if (user.getRole().equals("admin")) {
+                    List<Assignment> assignmentList = assignmentsRepository.findAll();
+                    return getAssignmentDataReply(assignmentList);
+                }
+                return new AssignmentDataReply(null, new Reply("No Permissions", false));
+
+            }
+            return new AssignmentDataReply(null, new Reply("Failure", false));
+        } else
+            return new AssignmentDataReply(null, new Reply("Token is Invalid, please login again!", false));
+    }
+
+    private AssignmentDataReply getAssignmentDataReply(List<Assignment> assignmentList) {
+        AssignmentReplyData[] assignments = new AssignmentReplyData[assignmentList.size()];
+        for (int i = 0; i < assignmentList.size(); i++) {
+            Assignment assignment = assignmentList.get(i);
+            double price = round(((assignment.getFilamentWeight() * filamentCostPerGramm) + (assignment.getHours() * powerCost)) * 1.75);
+            if (assignment.getDeliveryOptions() != null && price < 100) {
+                price = price + versandKosten;
+            }
+            AssignmentReplyData assignmentsReplyData = new AssignmentReplyData(assignment.getAssignmentId(), assignment.getPlaColor(), assignment.getStatus(), assignment.getPaymentStatus(), assignment.getTitle(), assignment.getDescription(), assignment.getInfill(), assignment.getFilamentWeight(), assignment.getHours(), price, assignment.getDeliveryOptions());
+            assignments[i] = assignmentsReplyData;
+        }
+        return new AssignmentDataReply(assignments, new Reply("All Assignments found", true));
     }
 
     public ColorAndDeliveryOptionsReply getAllPlaColors() {
@@ -108,4 +129,12 @@ public class AssignmentService {
             return new Reply("Token is Invalid, please login again!", false);
     }
 
+
+    public StatusesReply getStatuses() {
+        List<AssignmentStatus> assignmentStatusList = assignmentStatusRepository.findAll();
+        List<PaymentStatus> paymentStatusList = paymentStatusCodeRepository.findAll();
+        AssignmentStatus[] assignmentStatuses = assignmentStatusList.stream().toArray(AssignmentStatus[]::new);
+        PaymentStatus[] paymentStatuses = paymentStatusList.stream().toArray(PaymentStatus[]::new);
+        return new StatusesReply(assignmentStatuses, paymentStatuses, new Reply("Success", true));
+    }
 }

@@ -3,6 +3,7 @@ package com.homewebside.homewebsidebackend.controller;
 import com.homewebside.homewebsidebackend.replyes.AssignmentDataReply;
 import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
+import com.homewebside.homewebsidebackend.replyes.StatusesReply;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
 import com.homewebside.homewebsidebackend.services.AssignmentService;
@@ -22,6 +23,11 @@ public class AssignmentController {
         return assignmentService.getAllUserAssignments(standardRequest);
     }
 
+    @PostMapping("/getAllAssignments")
+    private AssignmentDataReply getAllAssignments(@RequestBody StandardRequest standardRequest){
+        return assignmentService.getAllAssignments(standardRequest);
+    }
+
     @PostMapping("/createNewAssignment")
     private Reply createNewAssignment(@RequestBody NewAssignmentRequest newAssignmentRequest){
         return assignmentService.createNewAssignment(newAssignmentRequest);
@@ -30,5 +36,10 @@ public class AssignmentController {
     @GetMapping("/getColorsAndDeliveryOptions")
     private ColorAndDeliveryOptionsReply getAllPlaColors(){
         return assignmentService.getAllPlaColors();
+    }
+
+    @GetMapping("/getStatuses")
+    private StatusesReply getStatuses(){
+        return assignmentService.getStatuses();
     }
 }

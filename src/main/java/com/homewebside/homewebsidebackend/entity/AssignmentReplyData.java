@@ -7,12 +7,16 @@ public class AssignmentReplyData {
     private PaymentStatus paymentStatus;
     private String title;
     private String description;
+
+    private int infill;
     private float filamentLength;
     private float wattHours;
 
     private double price;
 
-    public AssignmentReplyData(int assignmentId, PlaColor plaColor, AssignmentStatus status, PaymentStatus paymentStatus, String title, String description, float filamentLength, float wattHours, double price) {
+    private DeliveryOption deliveryOption;
+
+    public AssignmentReplyData(int assignmentId, PlaColor plaColor, AssignmentStatus status, PaymentStatus paymentStatus, String title, String description, int infill, float filamentLength, float wattHours, double price, DeliveryOption deliveryOption) {
         this.assignmentId = assignmentId;
         this.plaColor = plaColor;
         this.status = status;
@@ -22,6 +26,24 @@ public class AssignmentReplyData {
         this.filamentLength = filamentLength;
         this.wattHours = wattHours;
         this.price = price;
+        this.infill = infill;
+        this.deliveryOption = deliveryOption;
+    }
+
+    public int getInfill() {
+        return infill;
+    }
+
+    public void setInfill(int infill) {
+        this.infill = infill;
+    }
+
+    public DeliveryOption getDeliveryOption() {
+        return deliveryOption;
+    }
+
+    public void setDeliveryOption(DeliveryOption deliveryOption) {
+        this.deliveryOption = deliveryOption;
     }
 
     public double getPrice() {
