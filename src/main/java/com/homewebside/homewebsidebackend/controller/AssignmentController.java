@@ -4,6 +4,7 @@ import com.homewebside.homewebsidebackend.replyes.AssignmentDataReply;
 import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.replyes.StatusesReply;
+import com.homewebside.homewebsidebackend.requestTypes.EditAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
 import com.homewebside.homewebsidebackend.services.AssignmentService;
@@ -41,5 +42,10 @@ public class AssignmentController {
     @GetMapping("/getStatuses")
     private StatusesReply getStatuses(){
         return assignmentService.getStatuses();
+    }
+
+    @PostMapping("/editAssignment")
+    private Reply editAssignment(@RequestBody EditAssignmentRequest editAssignmentRequest){
+        return assignmentService.editAssignment(editAssignmentRequest);
     }
 }

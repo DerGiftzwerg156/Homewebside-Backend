@@ -6,6 +6,7 @@ import com.homewebside.homewebsidebackend.replyes.AssignmentDataReply;
 import com.homewebside.homewebsidebackend.replyes.ColorAndDeliveryOptionsReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.replyes.StatusesReply;
+import com.homewebside.homewebsidebackend.requestTypes.EditAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.NewAssignmentRequest;
 import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,5 +137,32 @@ public class AssignmentService {
         AssignmentStatus[] assignmentStatuses = assignmentStatusList.stream().toArray(AssignmentStatus[]::new);
         PaymentStatus[] paymentStatuses = paymentStatusList.stream().toArray(PaymentStatus[]::new);
         return new StatusesReply(assignmentStatuses, paymentStatuses, new Reply("Success", true));
+    }
+
+    public Reply editAssignment(EditAssignmentRequest editAssignmentRequest) {
+        if (tokenService.isTokenValid(editAssignmentRequest.getRequest().getToken())) {
+            if (tokenRepository.findByToken(editAssignmentRequest.getRequest().getToken()) != null) {
+                User user = tokenRepository.findByToken(editAssignmentRequest.getRequest().getToken()).getUserid();
+                if (user.getRole().equals("admin")) {
+                    Assignment oldAssignment = assignmentsRepository.findById(editAssignmentRequest.getAssignmentId());
+                    if (oldAssignment.getStatus().getAssignmentStatusCode() <= editAssignmentRequest.getStatusCode()) {
+                        AssignmentStatus newStatus = assignmentStatusRepository.findByAssignmentStatusCode(editAssignmentRequest.getStatusCode());
+                        if (oldAssignment.getStatus().getAssignmentStatusCode() == 101) {
+                            oldAssignment.setHours(editAssignmentRequest.getHours());
+                            oldAssignment.setFilamentWeight(editAssignmentRequest.getFilamentLength());
+                        }
+                        oldAssignment.setStatus(newStatus);
+                        assignmentsRepository.save(oldAssignment);
+                        return new Reply("Success", true);
+                    } else {
+                        return new Reply("Error", false);
+                    }
+                } else
+                    return new Reply("No Permissions", false);
+
+            }
+            return new Reply("Failure", false);
+        } else
+            return new Reply("Token is Invalid, please login again!", false);
     }
 }

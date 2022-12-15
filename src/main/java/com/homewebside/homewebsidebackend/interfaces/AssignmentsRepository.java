@@ -13,4 +13,6 @@ public interface AssignmentsRepository extends CrudRepository<Assignment, Intege
     List<Assignment> findAllByUserId(User user);
 
     List<Assignment> findAll();
+
+    Assignment findById(int assignment_id);
 }
