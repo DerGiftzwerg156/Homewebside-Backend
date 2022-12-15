@@ -6,7 +6,6 @@ import com.homewebside.homewebsidebackend.replyes.ColorReply;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import com.homewebside.homewebsidebackend.requestTypes.ChangePlaColorAvailability;
 import com.homewebside.homewebsidebackend.requestTypes.NewPlaColor;
-import com.homewebside.homewebsidebackend.requestTypes.StandardRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,20 +23,17 @@ public class PlaColorService {
     @Autowired
     private AuthService authService;
 
-    public ColorReply getAllPlaColors(StandardRequest standardRequest) {
-        if (tokenService.isTokenValid(standardRequest.getToken())) {
+    public ColorReply getAllPlaColors() {
             List<PlaColor> plaColorList = placolorsRepository.findAll();
             PlaColor[] plaColors = plaColorList.toArray(new PlaColor[0]);
             return new ColorReply(plaColors, new Reply("Success", true));
-        } else
-            return new ColorReply(null, new Reply("Token invalid", false));
 
     }
 
     public Reply editPlaColorAvailability(ChangePlaColorAvailability request) {
         if (tokenService.isTokenValid(request.getStandardRequest().getToken())) {
             PlaColor plaColor = placolorsRepository.findByPlaColorId(request.getPlaColor().getPlaColorId());
-            plaColor.setAvailable(request.getPlaColor().isAvailable());
+            plaColor.setAvailability(request.getPlaColor().isAvailability());
             placolorsRepository.save(plaColor);
             new Reply("Successfully changed Pla Color Status", true);
         }

@@ -15,11 +15,11 @@ public class PlaColor {
     private String color;
 
     @Column(name = "is_available",nullable = false)
-    private boolean isAvailable;
+    private boolean availability;
 
-    public PlaColor(String color, boolean isAvailable) {
+    public PlaColor(String color, boolean availability) {
         this.color = color;
-        this.isAvailable = isAvailable;
+        this.availability = availability;
     }
 
     public PlaColor() {
@@ -37,12 +37,12 @@ public class PlaColor {
         this.color = color;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public boolean isAvailability() {
+        return availability;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PlaColor {
         return "PlaColor{" +
                 "plaColorId=" + plaColorId +
                 ", color='" + color + '\'' +
-                ", isAvailable=" + isAvailable +
+                ", isAvailable=" + availability +
                 '}';
     }
 }

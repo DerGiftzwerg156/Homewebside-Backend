@@ -17,9 +17,9 @@ public class PlaColorController {
     @Autowired
     private PlaColorService plaColorService;
 
-    @PostMapping("/getAllPlaColors")
-    private ColorReply getAllPlaColors(@RequestBody StandardRequest standardRequest) {
-        return plaColorService.getAllPlaColors(standardRequest);
+    @GetMapping("/getAllPlaColors")
+    private ColorReply getAllPlaColors() {
+        return plaColorService.getAllPlaColors();
     }
 
     @PostMapping("/editPlaColorAvailability")
