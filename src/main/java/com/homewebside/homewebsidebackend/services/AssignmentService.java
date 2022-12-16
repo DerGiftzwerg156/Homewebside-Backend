@@ -125,6 +125,7 @@ public class AssignmentService {
                 System.out.println(deliveryOption);
                 Assignment assignment = new Assignment(user, plaColor, assignmentStatus, paymentStatus, newAssignmentRequest.getTitle(), newAssignmentRequest.getDescription(), newAssignmentRequest.getInfill(), deliveryOption);
                 assignmentsRepository.save(assignment);
+                emailService.sendNewAssignmentNotifikation(assignment);
                 return new Reply("Successfully created new Assignment", true);
             } else {
                 return new Reply("Failure", false);

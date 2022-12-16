@@ -4,6 +4,7 @@ import com.homewebside.homewebsidebackend.entity.Assignment;
 import com.homewebside.homewebsidebackend.entity.MailDetails;
 import com.homewebside.homewebsidebackend.entity.User;
 import com.homewebside.homewebsidebackend.interfaces.MailService;
+import com.homewebside.homewebsidebackend.interfaces.UserRepository;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.List;
 
 
 @Service
@@ -23,6 +25,9 @@ public class EmailServiceImpl implements MailService {
 
     @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Value("${spring.mail.username}")
     private String sender;
@@ -103,8 +108,8 @@ public class EmailServiceImpl implements MailService {
             mailMessage.setTo(assignment.getUser().getMail());
             mailMessage.setText("Hallo " + user.getFirstName() + ","
                     + "\n\nDer Bestellstatus deiner Bestellung hat sich geändert."
-                    + "\n\nIhre Bestellung: "+assignment.getTitle()+""
-                    + "\n\nNeuer Status: "+assignment.getStatus().getAssignmentStatus()+""
+                    + "\n\nIhre Bestellung: " + assignment.getTitle() + ""
+                    + "\n\nNeuer Status: " + assignment.getStatus().getAssignmentStatus() + ""
                     + "\n\nNice Grüße"
                     + "\n"
                     + "\nDein 3D Druck Store Team");
@@ -114,6 +119,30 @@ public class EmailServiceImpl implements MailService {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public void sendNewAssignmentNotifikation(Assignment assignment) {
+        List<User> userList = userRepository.findAllByRole("admin");
+        for (int i = 0; i < userList.size(); i++) {
+            User user = userList.get(i);
+            try {
+                SimpleMailMessage mailMessage = new SimpleMailMessage();
+                mailMessage.setFrom(sender);
+                mailMessage.setTo(user.getMail());
+                mailMessage.setText("Hallo " + user.getFirstName() + ","
+                        + "\n\nEs gibt eine neue Bestellung:"
+                        + "\n\nTitel: " + assignment.getTitle() + ""
+                        + "\n\nBeschreibung: " + assignment.getDescription() + ""
+                        + "\n\nFarbe: " + assignment.getPlaColor().getColor() + ""
+                        + "\n\nBeschreibung: " + assignment.getDeliveryOptions().getDeliveryName() + ""
+                        + "\n"
+                        + "\n\nAlso los ran da!");
+                mailMessage.setSubject("Es gibt eine neue bestellung");
+
+                mailSender.send(mailMessage);
+            } catch (Exception e) {
+            }
         }
     }
 }
