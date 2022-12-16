@@ -1,6 +1,8 @@
 package com.homewebside.homewebsidebackend.services;
 
+import com.homewebside.homewebsidebackend.entity.Assignment;
 import com.homewebside.homewebsidebackend.entity.MailDetails;
+import com.homewebside.homewebsidebackend.entity.User;
 import com.homewebside.homewebsidebackend.interfaces.MailService;
 import com.homewebside.homewebsidebackend.replyes.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,6 +93,27 @@ public class EmailServiceImpl implements MailService {
 
             // Display message when exception occurred
             return "Error while sending mail!!!";
+        }
+    }
+
+    public boolean sendAssignmentStatusChangedMail(Assignment assignment, User user) {
+        try {
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setFrom(sender);
+            mailMessage.setTo(assignment.getUser().getMail());
+            mailMessage.setText("Hallo " + user.getFirstName() + ","
+                    + "\n\nDer Bestellstatus deiner Bestellung hat sich geändert."
+                    + "\n\nIhre Bestellung: "+assignment.getTitle()+""
+                    + "\n\nNeuer Status: "+assignment.getStatus().getAssignmentStatus()+""
+                    + "\n\nNice Grüße"
+                    + "\n"
+                    + "\nDein 3D Druck Store Team");
+            mailMessage.setSubject("Der Bestellstatus deiner Bestellung hat sich geändert.");
+
+            mailSender.send(mailMessage);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

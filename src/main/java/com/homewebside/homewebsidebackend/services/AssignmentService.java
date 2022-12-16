@@ -43,6 +43,9 @@ public class AssignmentService {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    EmailServiceImpl emailService;
+
     private double round(double value) {
         double d = Math.pow(10, 2);
         return Math.round(value * d) / d;
@@ -153,6 +156,7 @@ public class AssignmentService {
                         }
                         oldAssignment.setStatus(newStatus);
                         assignmentsRepository.save(oldAssignment);
+                        emailService.sendAssignmentStatusChangedMail(oldAssignment, user);
                         return new Reply("Success", true);
                     } else {
                         return new Reply("Error", false);
